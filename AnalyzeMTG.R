@@ -1,5 +1,5 @@
 rm(list = ls())
-loc <- "/Users/bjr/Desktop/R_Projects/MTG_Data"
+loc <- "/Users/bjr/GitHub/MTG"
 
 ## the object must be in quotes for exists to work. This is nice, as
 ## it keeps me able to avoid running the rather long OpenMTGJSONSets.R

@@ -1,7 +1,4 @@
 ## Get the modal rarity, that is, the most common rarity for each card and turn them into a factor variable.
-loc <- "/Users/bjr/Desktop/R_Projects/MTG_Data"
-
-## if(!exists("FullData")) source(paste0(loc,"/OpenMTGJSONSets.R"))
 
 ## str(FullData)
 names(FullData)

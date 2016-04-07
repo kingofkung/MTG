@@ -1,12 +1,12 @@
 ## Check out the JSON Data in these magic the gathering datasets
 
-loc <- "/Users/bjr/Desktop/R_Projects/MTG_Data"
+datloc <- "/Users/bjr/GitHub/MTG/Data"
 
 library(jsonlite)
 
-AllCards <- fromJSON(paste0(loc,"/AllCards-x 2.json"))
-SetInfo <- fromJSON(paste0(loc,"/SetList.json"))
-FullData <- fromJSON(paste0(loc,"/AllSets-x 2.json"))
+AllCards <- fromJSON(paste0(datloc,"/AllCards-x 2.json"))
+SetInfo <- fromJSON(paste0(datloc,"/SetList.json"))
+FullData <- fromJSON(paste0(datloc,"/AllSets-x 2.json"))
 
 getall <- function( var, dat = AllCards, wantlist = TRUE) {
     out <- lapply(dat, function(x) x[[var]])

@@ -1,0 +1,74 @@
+rm(list = ls())
+loc <- "/Users/bjr/Desktop/R_Projects/MTG_Data"
+
+## the object must be in quotes for exists to work. This is nice, as
+## it keeps me able to avoid running the rather long OpenMTGJSONSets.R
+## code unless the key data sets don't exist.
+if(!exists("AllCards")) source(paste0(loc,"/OpenMTGJSONSets.R"))
+
+## summary(AllCards)
+
+## Note to self (U+2014) is a long dash
+
+
+cats <- c("layout", "manaCost", "cmc", "type", "types", "text", "loyalty", "power", "toughness", "mciNumber")
+
+## The best way to combine these is by name...
+df <- as.data.frame( getall(var = "name", wantlist = FALSE))
+colnames(df) <- "name"
+
+for(i in 1:length(cats)){
+    all <- getall(cats[i], wantlist = FALSE)
+    allrows <- match(rownames(df), names(all))
+    df[,cats[i]] <- NA
+    df[,cats[i]] <- all[allrows]
+}
+
+
+multicats <- c("subtypes", "colors", "colorIdentity")
+
+
+for(j in 1:length(multicats)){
+
+    datin  <- getall(multicats[j], wantlist = TRUE)
+    datin <- lapply(datin, paste, collapse = ", ")
+    df[,multicats[j]] <- unlist(datin)
+    df[ df[,multicats[j]]== "", multicats[j]] <- NA
+
+}
+
+head(df[,multicats], 50)
+
+## Dummy-fy the red, white, blue, etc...
+ucols <-  c("Red", "White", "Blue", "Black", "Green")
+df[,ucols] <- NA
+
+for(i in 1:length(ucols)){
+    df[ grep("", df$colors), ucols[i]] <- NA
+    df[ grep(ucols[i], df$colors), ucols[i]] <- 1
+    df[ -grep(ucols[i], df$colors), ucols[i]] <- 0
+
+}
+
+## Get/add Legalities to the df
+source(paste0(loc,"/Legalities.R"))
+
+## Rarity
+source(paste0(loc,"/ModalRarity.R"))
+rars[rars$cardnames == "Serra Angel",]
+head(rarsagg)
+
+
+## Get printings
+allprintings <- getall("printings", wantlist = TRUE)
+uniquePrints <- sort(unique(unlist(allprintings)))
+print(uniquePrints)
+
+## Given a set of variables with all printings, how can I tell R to include a 1 if the card has a value in this printing, and 0 if it does not?
+
+## While the thing I have above works, it would be better if it were all part of 1 loop
+
+write.csv(df, "/Users/bjr/Dropbox/MTGData.csv", row.names = FALSE)
+
+
+

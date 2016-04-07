@@ -11,20 +11,21 @@ if(!exists("AllCards")) source(paste0(loc,"/OpenMTGJSONSets.R"))
 ## Note to self (U+2014) is a long dash
 
 
-cats <- c("layout", "manaCost", "cmc", "type", "types", "text", "loyalty", "power", "toughness", "mciNumber")
+cats <- c("name", "layout", "manaCost", "cmc", "type", "types", "text", "loyalty", "power", "toughness", "mciNumber")
 
-## The best way to combine these is by name...
+## The best way to combine these is by name, making a column out of
+## the data and matching the data columns by name before adding them
+## to the main df.
 df <- as.data.frame( getall(var = "name", wantlist = FALSE))
 colnames(df) <- "name"
 
-for(i in 1:length(cats)){
+for(i in 2:length(cats)){
     all <- getall(cats[i], wantlist = FALSE)
     allrows <- match(rownames(df), names(all))
     df[,cats[i]] <- NA
     df[,cats[i]] <- all[allrows]
 }
 
-## Alternative option: What if we created a list that only featured the variables in cats? Then, we could hypothetically use rbind.fill to turn the list into a data.frame.
 
 multicats <- c("subtypes", "colors", "colorIdentity")
 
@@ -54,7 +55,7 @@ for(i in 1:length(ucols)){
 ## Get/add Legalities to the df
 source(paste0(loc,"/Legalities.R"))
 
-## Rarity
+## Add Rarity
 source(paste0(loc,"/ModalRarity.R"))
 ## rars[rars$cardnames == "Serra Angel",]
 ## head(rarsagg)

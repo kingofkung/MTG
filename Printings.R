@@ -28,9 +28,9 @@ head(data.frame( colnames(df[,uniquePrints]),SetInfo$code, SetInfo$name))
 
 codematches <- match(colnames(df[,uniquePrints]), SetInfo$code)
 
-## View(data.frame(uniquePrints, SetInfo$name[codematches]))
+## View(SetInfo[order(SetInfo$code),])
 
-colnames(df[,uniquePrints]) <- SetInfo$name[codematches]
-colnames(df)
+colnames(df)[colnames(df) %in% uniquePrints] <- SetInfo$name[codematches]
+## colnames(df)
 
 ## Note: set information is kept under SetInfo

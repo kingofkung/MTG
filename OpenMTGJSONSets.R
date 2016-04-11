@@ -19,9 +19,15 @@ getall <- function( var, dat = AllCards, wantlist = TRUE) {
 ## Make it easier to look at cards with all of these na's
 card <- function(cardname, dat = df) dat[cardname, !is.na(dat[cardname,])]
 
-## I decided I wanted a function that allows me to look at a card's
-## list and data frame info at the same time. If only there were a way
-## to get the info more elegantly
+##' I decided I wanted a function that allows me to look at a card's
+##' list and data frame info at the same time. If only there were a way
+##' to get the info more elegantly
+##'
+##' returns card output from the data frame and cards list
+##' @title compare
+##' @param cardsname
+##' @return void
+##' @author Benjamin Rogers
 compare <- function(cardsname){
     print(card(cardsname))
     print(AllCards[cardsname])

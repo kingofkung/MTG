@@ -2,7 +2,7 @@
 
 ## Get printings
 allPrintings <- getall("printings", wantlist = TRUE)
-uniquePrints <- sort(unique(unlist(allprintings)))
+uniquePrints <- sort(unique(unlist(allPrintings)))
 
 head(allPrintings)
 
@@ -21,5 +21,16 @@ for(i in 1:length(uniquePrints)){
 }
 
 df$printsPaste <- NULL
+
+colnames(SetInfo)
+
+head(data.frame( colnames(df[,uniquePrints]),SetInfo$code, SetInfo$name))
+
+codematches <- match(colnames(df[,uniquePrints]), SetInfo$code)
+
+## View(data.frame(uniquePrints, SetInfo$name[codematches]))
+
+colnames(df[,uniquePrints]) <- SetInfo$name[codematches]
+colnames(df)
 
 ## Note: set information is kept under SetInfo

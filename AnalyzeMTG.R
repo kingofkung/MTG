@@ -61,10 +61,7 @@ source(paste0(loc,"/ModalRarity.R"))
 ## head(rarsagg)
 
 
-## Get printings
-allprintings <- getall("printings", wantlist = TRUE)
-uniquePrints <- sort(unique(unlist(allprintings)))
-print(uniquePrints)
+source(paste0(loc, "/Printings.R"))
 
 ## Given a set of variables with all printings, how can I tell R to include a 1 if the card has a value in this printing, and 0 if it does not?
 

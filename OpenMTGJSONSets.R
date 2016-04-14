@@ -17,6 +17,13 @@ getall <- function( var, dat = AllCards, wantlist = TRUE) {
 }
 
 ## Make it easier to look at cards with all of these na's
+##'
+##'
+##' @title card
+##' @param cardname The card's name, as a text string.
+##' @param dat Usually the data frame df, but we could use whatever we want!
+##' @return a one row data frame with the card's information
+##' @author Benjamin Rogers
 card <- function(cardname, dat = df) dat[cardname, !is.na(dat[cardname,])]
 
 ##' I decided I wanted a function that allows me to look at a card's

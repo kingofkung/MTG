@@ -68,6 +68,3 @@ source(paste0(loc, "/Printings.R"))
 ## While the thing I have above works, it would be better if it were all part of 1 loop
 
 write.csv(df, "/Users/bjr/Dropbox/MTGData.csv", row.names = FALSE)
-
-
-

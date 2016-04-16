@@ -3,7 +3,8 @@
 ## This looks pretty decent...
 mtg <- read.csv("/Users/bjr/Dropbox/MTGData.csv")
 mtg$numpow <- as.numeric(as.character(mtg$power))
-## with(mtg, table(power, numpow))
+with(mtg, table(power, numpow))
+
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
 names(mtg)
 

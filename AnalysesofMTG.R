@@ -12,10 +12,12 @@ hist(as.numeric(mtg$toughness))
 as.character(unique(mtg$modalrarity))
 
 
+## Quick note: if you want to use subtypes like this, it has to be capitalized
+raregoblins <- mtg[grepl("Goblin", mtg$subtypes, ignore.case = TRUE) & mtg$modalrarity == "Rare" ,
+                   c("name", "type", "subtypes", "power", "toughness", "modalrarity")]
+## write.csv(file = "/Users/bjr/Dropbox/raregoblins.csv", raregoblins)
 
-mtg[mtg$subtypes %in% "Goblin" & mtg$modalrarity =="Rare" ,
-    c("name", "type", "subtypes", "power", "toughness", "modalrarity")]
-
+nrow(mtg[mtg$subtypes %in% "Goblin",])
 
 
 t.test( x = mtg[grep("goblin", mtg$subtypes, ignore.case = T), "numpow"],

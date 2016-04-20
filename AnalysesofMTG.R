@@ -9,7 +9,14 @@ names(mtg)
 
 hist(as.numeric(mtg$toughness))
 
-mtg[grep("goblin", mtg$subtypes, ignore.case = TRUE), c("name", "type", "power", "toughness")]
+as.character(unique(mtg$modalrarity))
+
+
+
+mtg[mtg$subtypes %in% "Goblin" & mtg$modalrarity =="Rare" ,
+    c("name", "type", "subtypes", "power", "toughness", "modalrarity")]
+
+
 
 t.test( x = mtg[grep("goblin", mtg$subtypes, ignore.case = T), "numpow"],
        y =  mtg[grep("zombie", mtg$subtypes, ignore.case = T), "numpow"])

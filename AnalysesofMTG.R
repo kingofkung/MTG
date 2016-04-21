@@ -13,8 +13,12 @@ as.character(unique(mtg$modalrarity))
 
 
 ## Quick note: if you want to use subtypes like this, it has to be capitalized
+## Or you can use grepl to get the true false while ignoring case
 raregoblins <- mtg[grepl("Goblin", mtg$subtypes, ignore.case = TRUE) & mtg$modalrarity == "Rare" ,
                    c("name", "type", "subtypes", "power", "toughness", "modalrarity")]
+
+
+
 ## write.csv(file = "/Users/bjr/Dropbox/raregoblins.csv", raregoblins)
 
 nrow(mtg[mtg$subtypes %in% "Goblin",])

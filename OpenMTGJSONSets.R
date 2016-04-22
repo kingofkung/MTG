@@ -24,7 +24,9 @@ getall <- function( var, dat = AllCards, wantlist = TRUE) {
 ##' @param dat Usually the data frame df, but we could use whatever we want!
 ##' @return a one row data frame with the card's information
 ##' @author Benjamin Rogers
-card <- function(cardname, dat = df) dat[cardname, !is.na(dat[cardname,])]
+card <- function(cardname, dat = df){
+    dat[cardname, !is.na(dat[cardname,])]
+}
 
 ##' I decided I wanted a function that allows me to look at a card's
 ##' list and data frame info at the same time. If only there were a way

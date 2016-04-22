@@ -9,7 +9,6 @@
 
 
 
-head(df[,"text"])
 
 abilities <- read.csv("/Users/bjr/GitHub/MTG/Data/keywords.csv", stringsAsFactors = T)
 abilities <- apply(abilities, 1, function(x) as.character(x))
@@ -21,9 +20,9 @@ lastIsSpace <- substr(abilities, nchar(abilities), nchar(abilities) ) == " "
 abilities[lastIsSpace] <- substr(abilities[lastIsSpace],1, nchar(abilities[lastIsSpace])-1)
 
 ## Deal with tap/untap in 25
-tapuntap <- unlist(strsplit(abilities[25], "[/]"))
-abilities <- c(abilities[1:24], tapuntap, abilities[26:length(abilities)])
-abilities
+## tapuntap <- unlist(strsplit(abilities[25], "[/]"))
+abilities <- c(abilities[1:24], abilities[26:length(abilities)])
+abilities <- c(abilities, "\\{T\\}")
 
 ## Noticed a duplicate. Get rid of them
 abilities <- unique(abilities)
@@ -43,13 +42,15 @@ abilities <- c(abilities, landabilities)
 
 
 ## Now that we've got our abilities listed, we need to figure out how to
-grepl(abilities[25], df$text, T)
+## df$text[ grepl("\\{T\\}", df$text, T)][1:10]
 
 abilcols <- sapply(seq_along(abilities), function(z){
-    ifelse(grepl(abilities[z], df$text, T), "", NA)
+    ifelse(grepl(abilities[z], df$text, T), "Yes", NA)
 }
        )
 
 colnames(abilcols) <- abilities
+
+colnames(abilcols)[colnames(abilcols) == "\\{T\\}"] <- "TapAbility"
 
 df[,abilities] <- as.data.frame(abilcols)

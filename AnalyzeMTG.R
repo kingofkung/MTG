@@ -1,4 +1,6 @@
-rm(list = ls())
+## Remove everything but the JSON data sets. This should make it run way faster.
+rm(list = ls()[!ls() %in% c("AllCards", "SetInfo", "FullData")]
+)
 loc <- "/Users/bjr/GitHub/MTG"
 
 ## the object must be in quotes for exists to work. This is nice, as
@@ -51,6 +53,7 @@ for(i in 1:length(ucols)){
     df[ -grep(ucols[i], df$colors), ucols[i]] <- 0
 
 }
+
 
 ## Get/add Legalities to the df
 source(paste0(loc,"/Legalities.R"))

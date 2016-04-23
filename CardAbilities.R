@@ -21,8 +21,17 @@ abilities[lastIsSpace] <- substr(abilities[lastIsSpace],1, nchar(abilities[lastI
 
 ## Deal with tap/untap in 25
 ## tapuntap <- unlist(strsplit(abilities[25], "[/]"))
+regexes <- c(tapAbility = "\\{T\\}",
+             greenAbility = "\\{G\\}", plainsAbility = "\\{W\\}", mtAbility = "\\{R\\}", swampAbility = "\\{B\\}", blueAbility = "\\{U\\}",
+             artifAbility = "\\{C\\}", digitAbility =  "\\{\\d+\\}")
 abilities <- c(abilities[1:24], abilities[26:length(abilities)])
-abilities <- c(abilities, "\\{T\\}")
+abilities <- c(abilities, regexes
+
+               )
+## turns out that there are both colorles {C} and {n} where n could be
+## any digit. I've go the first one captured. We'll see about the
+## second later
+
 
 ## Noticed a duplicate. Get rid of them
 abilities <- unique(abilities)
@@ -44,6 +53,7 @@ abilities <- c(abilities, landabilities)
 ## Now that we've got our abilities listed, we need to figure out how to
 ## df$text[ grepl("\\{T\\}", df$text, T)][1:10]
 
+
 abilcols <- sapply(seq_along(abilities), function(z){
     ifelse(grepl(abilities[z], df$text, T), "Yes", NA)
 }
@@ -51,6 +61,7 @@ abilcols <- sapply(seq_along(abilities), function(z){
 
 colnames(abilcols) <- abilities
 
-colnames(abilcols)[colnames(abilcols) == "\\{T\\}"] <- "TapAbility"
+colnames(abilcols)[colnames(abilcols) %in% regexes]
+names(regexes)
 
-df[,abilities] <- as.data.frame(abilcols)
+df[,colnames(abilcols)] <- as.data.frame(abilcols)

@@ -6,7 +6,7 @@ loc <- "/Users/bjr/GitHub/MTG"
 ## the object must be in quotes for exists to work. This is nice, as
 ## it keeps me able to avoid running the rather long OpenMTGJSONSets.R
 ## code unless the key data sets don't exist.
-if(!exists("AllCards")) source(paste0(loc,"/OpenMTGJSONSets.R"))
+source(paste0(loc,"/OpenMTGJSONSets.R"))
 
 ## summary(AllCards)
 
@@ -54,6 +54,9 @@ for(i in 1:length(ucols)){
 
 }
 
+
+
+df[, "nocolor"] <- ifelse(rowSums(df[,ucols],na.rm = TRUE) == 0, 1, 0)
 
 ## Get/add Legalities to the df
 source(paste0(loc,"/Legalities.R"))

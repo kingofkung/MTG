@@ -15,7 +15,7 @@ df[,uniquePrints] <- NA
 for(i in 1:length(uniquePrints)){
     ## df[ grep("", df$printsPaste), uniquePrints[i]] <- NA
     df[ grep(uniquePrints[i], df$printsPaste), uniquePrints[i]] <- 1
-    df[ -grep(uniquePrints[i], df$printsPaste), uniquePrints[i]] <- NA
+    df[ -grep(uniquePrints[i], df$printsPaste), uniquePrints[i]] <- 0
 
 
 }

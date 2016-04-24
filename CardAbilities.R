@@ -55,13 +55,13 @@ abilities <- c(abilities, landabilities)
 
 
 abilcols <- sapply(seq_along(abilities), function(z){
-    ifelse(grepl(abilities[z], df$text, T), "Yes", NA)
+    ifelse(grepl(abilities[z], df$text, T), 1, 0)
 }
        )
 
 colnames(abilcols) <- abilities
 
-colnames(abilcols)[colnames(abilcols) %in% regexes]
-names(regexes)
+## This'll change it so that they're right, but how can I be sure about the order? I'm sure. It turns out that which() keeps the right order, even if the columns aren't in order.
+colnames(abilcols)[which(colnames(abilcols) %in% regexes)] <- names(regexes)
 
 df[,colnames(abilcols)] <- as.data.frame(abilcols)

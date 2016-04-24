@@ -17,7 +17,7 @@ getall <- function( var, dat = AllCards, wantlist = TRUE) {
 
 }
 
-## Make it easier to look at cards with all of these na's
+## Make it easier to look at cards with all of these na's and symbols we'd like hidden
 ##'
 ##'
 ##' @title card
@@ -26,7 +26,11 @@ getall <- function( var, dat = AllCards, wantlist = TRUE) {
 ##' @return a one row data frame with the card's information
 ##' @author Benjamin Rogers
 card <- function(cardname, dat = df){
-    dat[cardname,  !is.na(dat[cardname,]) & dat[cardname,] != 0 & dat[cardname,] != "No" ]
+    dat[cardname,
+        !is.na(dat[cardname,])
+        & dat[cardname,] != 0
+        & dat[cardname,] != "No"
+        & !colnames(dat) %in% "printsPaste"]
 }
 
 ##' I decided I wanted a function that allows me to look at a card's

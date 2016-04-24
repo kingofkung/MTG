@@ -69,3 +69,5 @@ splrars$`Iron Myr`
 
 lrar <- cbind(lrar, nrarcats)
 df[,"nrarcats"] <- lrar$nrarcats[match( df[,"name"], lrar$cardnames)]
+
+ ## write.csv(rars, paste0(writeloc, "rars.csv"), row.names = F)

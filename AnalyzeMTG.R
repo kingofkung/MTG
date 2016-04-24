@@ -2,6 +2,7 @@
 rm(list = ls()[!ls() %in% c("AllCards", "SetInfo", "FullData")]
 )
 loc <- "/Users/bjr/GitHub/MTG"
+writeloc <-  "/Users/bjr/Dropbox/MTGDat/"
 
 ## the object must be in quotes for exists to work. This is nice, as
 ## it keeps me able to avoid running the rather long OpenMTGJSONSets.R
@@ -74,5 +75,4 @@ source(paste0(loc, "/CardAbilities.R"))
 ## Given a set of variables with all printings, how can I tell R to include a 1 if the card has a value in this printing, and 0 if it does not?
 
 ## While the thing I have above works, it would be better if it were all part of 1 loop
-writeloc <-  "/Users/bjr/Dropbox/MTGDat/"
-write.csv(df, "MTGData.csv", row.names = FALSE)
+write.csv(df, paste0(writeloc,"MTGData.csv"), row.names = FALSE)

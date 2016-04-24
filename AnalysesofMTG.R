@@ -1,9 +1,10 @@
 ## Here's where I'll keep all of my analyses, graphical and statistical
 
-## This looks pretty decent...
+## This keeps it so that if we have the data already, we don't have to
+## read it off the hard drive.
 if(exists("df")) mtg <- df else mtg <- read.csv("/Users/bjr/Dropbox/MTGData.csv")
+## Create Numeric versions of power/toughness (for analysis purposes)
 mtg$numpow <- as.numeric(as.character(mtg$power))
-## with(mtg, table(power, numpow))
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
 names(mtg)
 

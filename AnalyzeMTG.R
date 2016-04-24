@@ -74,5 +74,5 @@ source(paste0(loc, "/CardAbilities.R"))
 ## Given a set of variables with all printings, how can I tell R to include a 1 if the card has a value in this printing, and 0 if it does not?
 
 ## While the thing I have above works, it would be better if it were all part of 1 loop
-
-write.csv(df, "/Users/bjr/Dropbox/MTGData.csv", row.names = FALSE)
+writeloc <-  "/Users/bjr/Dropbox/MTGDat/"
+write.csv(df, "MTGData.csv", row.names = FALSE)

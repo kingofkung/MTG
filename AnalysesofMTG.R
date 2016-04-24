@@ -17,9 +17,10 @@ as.character(unique(mtg$modalrarity))
 raregoblins <- mtg[grepl("Goblin", mtg$subtypes, ignore.case = TRUE) & mtg$modalrarity == "Rare" ,
                    c("name", "type", "subtypes", "power", "toughness", "modalrarity")]
 
-
+poisons <- mtg[grepl("poison", mtg$text, ignore.case = TRUE), ]
 
 ## write.csv(file = "/Users/bjr/Dropbox/raregoblins.csv", raregoblins)
+write.csv(file = '/Users/bjr/Dropbox/poisonrefs.csv', poisons)
 
 nrow(mtg[mtg$subtypes %in% "Goblin",])
 

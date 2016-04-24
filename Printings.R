@@ -20,9 +20,7 @@ for(i in 1:length(uniquePrints)){
 
 }
 
-df$printsPaste
 
-colnames(SetInfo)
 
 for(i in 1:nrow(SetInfo)) df$printsPaste <- gsub(SetInfo$code[i], SetInfo$name[i], df$printsPaste)
 

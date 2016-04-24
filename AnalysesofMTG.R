@@ -1,7 +1,7 @@
 ## Here's where I'll keep all of my analyses, graphical and statistical
 
 ## This looks pretty decent...
-mtg <- read.csv("/Users/bjr/Dropbox/MTGData.csv")
+ifelse(exists("df"), mtg <- df, mtg <- read.csv("/Users/bjr/Dropbox/MTGData.csv")
 mtg$numpow <- as.numeric(as.character(mtg$power))
 ## with(mtg, table(power, numpow))
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
@@ -20,7 +20,7 @@ raregoblins <- mtg[grepl("Goblin", mtg$subtypes, ignore.case = TRUE) & mtg$modal
 poisons <- mtg[grepl("poison", mtg$text, ignore.case = TRUE), ]
 
 ## write.csv(file = "/Users/bjr/Dropbox/raregoblins.csv", raregoblins)
-write.csv(file = '/Users/bjr/Dropbox/poisonrefs.csv', poisons)
+write.csv(file = '/Users/bjr/Dropbox/poisonrefs.csv', poisons, row.names = F)
 
 nrow(mtg[mtg$subtypes %in% "Goblin",])
 

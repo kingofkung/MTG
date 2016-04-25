@@ -60,7 +60,7 @@ t.test(x = mtg[mtg$Blue ==1 & mtg$types %in% "Creature", "cmc"],
 
 ## Note. Positivity means the value in 1 is larger. It was negative,
 ## but I multiplied the t statistics by -1 to make it clearer
-ucols <- c("Red", "White", "Blue", "Black", "Green", "nocolor")
+ucols <- c("Red", "White", "Blue", "Black", "Green")
 pows <- unlist(lapply(ucols, function(x){
     -1 * t.test(numpow ~ get(x), data = mtg)$statistic
 }))
@@ -77,3 +77,20 @@ rbind("powerst" = pows, "toughnessest" = toughs)
 ## So that was easy. Simply by virtue of having green in the cost, the
 ## power/toughness is likely to be higher.
 ## Note that that doesn't tell us how much higher, only that it's higher.
+
+colbd <- lapply(ucols, function(x){
+    typetab <- sort(table(mtg[mtg[, x] == 1 ,"types"]), decreasing = TRUE)
+    ## prop.table(typetab)
+                })
+names(colbd) <- ucols
+
+## They're all creature-centric, but blue's your color for instants
+## (aka the fast game, as I see it). Black and Red favor sorcery as
+## their second type (Black's got a few more, percentage wise). Green
+## and white have the most Enchantments as a percentage though (
+
+
+## Looks
+## like nocolor isn't artifacts, though, and we'll need to do some
+## further manipulation to figure that out...
+artifacts <- mtg[grep("artifact", mtg$subtypes),]

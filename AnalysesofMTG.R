@@ -25,8 +25,6 @@ destroylandinfo <- mtg[grepl("destroy\\s+\\w*\\s+land", mtg$text, ignore.case = 
                               ,]
 sort(table(destroylandinfo$colors))
 
-colpowagg <- aggregate(numpow ~ Red, FUN = mean, data = mtg)
-colpowagg[order(-colpowagg$numpow),]
 
 ## write.csv(file = "/Users/bjr/Dropbox/raregoblins.csv", raregoblins)
 ## write.csv(file = '/Users/bjr/Dropbox/poisonrefs.csv', poisons, row.names = F)
@@ -55,5 +53,27 @@ t.test(x = mtg[mtg$Blue ==1 & mtg$types %in% "Creature", "cmc"],
 
 
 ## To Do list
-## do a git ignore on the backup files
+
 ## Figure out which color is the strongest color.
+
+## t.test(numtough ~ Green, data = mtg)
+
+## Note. Positivity means the value in 1 is larger. It was negative,
+## but I multiplied the t statistics by -1 to make it clearer
+ucols <- c("Red", "White", "Blue", "Black", "Green", "nocolor")
+pows <- unlist(lapply(ucols, function(x){
+    -1 * t.test(numpow ~ get(x), data = mtg)$statistic
+}))
+names(pows) <- ucols
+
+
+toughs <- unlist( lapply(ucols, function(x){
+   -1 * t.test(numtough ~ get(x), data = mtg)$statistic
+}))
+names(toughs) <- ucols
+
+rbind("powerst" = pows, "toughnessest" = toughs)
+
+## So that was easy. Simply by virtue of having green in the cost, the
+## power/toughness is likely to be higher.
+## Note that that doesn't tell us how much higher, only that it's higher.

@@ -93,4 +93,7 @@ names(colbd) <- ucols
 ## Looks
 ## like nocolor isn't artifacts, though, and we'll need to do some
 ## further manipulation to figure that out...
-artifacts <- mtg[grep("artifact", mtg$subtypes),]
+## artifact creatures, further, are not so easy to separate out
+artifacts <- mtg[grep("artifact", mtg$type, ignore.case = T),]
+head(artifacts[,1:20])
+artifacts[artifacts$name %in% "Iron Myr",]

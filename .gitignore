@@ -10,3 +10,5 @@ MtgFanatic-BuylistCards.csv
 *.css
 
 *.R#
+
+*.R~

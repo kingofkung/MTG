@@ -19,8 +19,19 @@ raregoblins <- mtg[grepl("Goblin", mtg$subtypes, ignore.case = TRUE) & mtg$modal
 
 poisons <- mtg[grepl("poison", mtg$text, ignore.case = TRUE), ]
 
+destroylandinfo <- mtg[grepl("destroy\\s+\\w*\\s+land", mtg$text, ignore.case = TRUE)
+                       |  grepl("destroy\\s+\\w*\\s+permanent", mtg$text, ignore.case = TRUE)
+                       & !grepl("destroy\\s+nonland\\s+permanent", mtg$text, ignore.case = TRUE)
+                              ,]
+sort(table(destroylandinfo$colors))
+
+colpowagg <- aggregate(numpow ~ Red, FUN = mean, data = mtg)
+colpowagg[order(-colpowagg$numpow),]
+
 ## write.csv(file = "/Users/bjr/Dropbox/raregoblins.csv", raregoblins)
 ## write.csv(file = '/Users/bjr/Dropbox/poisonrefs.csv', poisons, row.names = F)
+write.csv(file = paste0(writeloc, "landdestroyer.csv"), destroylandinfo, row.names = F)
+
 
 nrow(mtg[mtg$subtypes %in% "Goblin",])
 
@@ -41,3 +52,8 @@ t.test(x = mtg[mtg$Blue ==1 & mtg$types %in% "Creature", "cmc"],
 
 ## Note to self: {U} is actually blue in manaCost
 ## Also, it's types and subtypes, not type or subtype
+
+
+## To Do list
+## do a git ignore on the backup files
+## Figure out which color is the strongest color.

@@ -1,8 +1,10 @@
 ## Here's where I'll keep all of my analyses, graphical and statistical
 
 ## This keeps it so that if we have the data already, we don't have to
-## read it off the hard drive.
-if(exists("df")) mtg <- df else mtg <- read.csv("/Users/bjr/Dropbox/MTGData.csv")
+## read it off the hard drive. Goddammit! df is the command for the F
+## distribution's density. We'll need to do something about that.
+readloc <- "/Users/bjr/Dropbox/MTGDat/"
+if("df" %in% ls()) mtg <- df else mtg <- read.csv(paste0(readloc, "MTGData.csv"))
 ## Create Numeric versions of power/toughness (for analysis purposes)
 mtg$numpow <- as.numeric(as.character(mtg$power))
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
@@ -74,6 +76,13 @@ names(toughs) <- ucols
 
 rbind("powerst" = pows, "toughnessest" = toughs)
 
+## Looks
+## like nocolor isn't artifacts, though, and we'll need to do some
+## further manipulation to figure that out...
+## artifact creatures, further, are not so easy to separate out
+artifacts <- mtg[grep("artifact", mtg$type, ignore.case = T),]
+
+
 ## So that was easy. Simply by virtue of having green in the cost, the
 ## power/toughness is likely to be higher.
 ## Note that that doesn't tell us how much higher, only that it's higher.
@@ -88,12 +97,17 @@ names(colbd) <- ucols
 ## (aka the fast game, as I see it). Black and Red favor sorcery as
 ## their second type (Black's got a few more, percentage wise). Green
 ## and white have the most Enchantments as a percentage though (
+paste0( names(sort(table(mtg$types), decreasing = T))[c(1:6, 9)],  collapse = "', '"      )
 
+maincardtypes <- c('Creature', 'Instant', 'Enchantment', 'Sorcery', 'Artifact', 'Land', 'Planeswalker')
 
-## Looks
-## like nocolor isn't artifacts, though, and we'll need to do some
-## further manipulation to figure that out...
-## artifact creatures, further, are not so easy to separate out
-artifacts <- mtg[grep("artifact", mtg$type, ignore.case = T),]
-head(artifacts[,1:20])
-artifacts[artifacts$name %in% "Iron Myr",]
+for(i in seq_along(maincardtypes[1:5])){
+    print(maincardtypes[i])
+    y <- lapply(ucols, function(x) table(mtg[ mtg$types %in% maincardtypes[i], c(x, "cmc")]))
+    print(y)
+    if(i==1) {
+        listsav <- list(y)
+        names(listsav) <- maincardtypes[i]} else listsav[[maincardtypes[i]]] <- y
+
+}
+

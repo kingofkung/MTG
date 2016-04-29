@@ -14,7 +14,7 @@ mtg$numpow <- as.numeric(as.character(mtg$power))
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
 names(mtg)
 
-hist(as.numeric(mtg$toughness))
+hist(as.numeric(mtg$numtough))
 
 as.character(unique(mtg$modalrarity))
 
@@ -130,4 +130,10 @@ source("/Users/bjr/Desktop/fancyt.R")
 fancyt("White", "Green", cmcmod)
 
 powmod <- lm(numpow ~ Green*White*Red*Blue*Black, dat = mtg)
-summary(powmod)
+powcoefs <- summary(powmod)$coefficients
+
+powcoefs[powcoefs[,4]<=.05,]
+
+powtypes <- lm(numpow ~ subtypes, mtg)
+powtypesum <- coef(summary(powtypes))
+powtypesum[powtypesum[,4] <= .05 & abs(powtypesum[,1]) >=1,]

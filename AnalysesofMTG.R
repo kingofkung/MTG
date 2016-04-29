@@ -6,6 +6,10 @@
 readloc <- "/Users/bjr/Dropbox/MTGDat/"
 if("df" %in% ls()) mtg <- df else mtg <- read.csv(paste0(readloc, "MTGData.csv"))
 ## Create Numeric versions of power/toughness (for analysis purposes)
+
+## Kill unhinged and unglued from my data. This is supposed to be a serious analysis
+mtg <- mtg[mtg$Unhinged ==0 & mtg$Unglued == 0 , ]
+
 mtg$numpow <- as.numeric(as.character(mtg$power))
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
 names(mtg)
@@ -110,4 +114,20 @@ for(i in seq_along(maincardtypes[1:5])){
         names(listsav) <- maincardtypes[i]} else listsav[[maincardtypes[i]]] <- y
 
 }
+summary(mtg$types)
+mtg$typesrel <- relevel(mtg$types, "Creature")
 
+cmcmod <- lm(cmc ~ Black + Red + Blue + Green + White + typesrel  , data = mtg[mtg$Unhinged ==0 & mtg$Unglued == 0 , ])
+summary(cmcmod)
+
+cmcmod2 <- update(cmcmod, .~. + Red * typesrel + Blue * typesrel + Green * typesrel + White * typesrel + Black * typesrel)
+summary(cmcmod2)
+
+redvblue <- lm(cmc ~ Red + Blue + Red * typesrel + Blue * typesrel, dat = mtg)
+summary(redvblue)
+
+source("/Users/bjr/Desktop/fancyt.R")
+fancyt("White", "Green", cmcmod)
+
+powmod <- lm(numpow ~ Green*White*Red*Blue*Black, dat = mtg)
+summary(powmod)

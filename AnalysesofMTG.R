@@ -19,27 +19,6 @@ hist(as.numeric(mtg$numtough))
 as.character(unique(mtg$modalrarity))
 
 
-## Quick note: if you want to use subtypes like this, it has to be capitalized
-## Or you can use grepl to get the true false while ignoring case
-raregoblins <- mtg[grepl("Goblin", mtg$subtypes, ignore.case = TRUE) & mtg$modalrarity == "Rare" ,]
-
-poisons <- mtg[grepl("poison", mtg$text, ignore.case = TRUE), ]
-
-destroylandinfo <- mtg[grepl("destroy\\s+\\w*\\s+land", mtg$text, ignore.case = TRUE)
-                       |  grepl("destroy\\s+\\w*\\s+permanent", mtg$text, ignore.case = TRUE)
-                       & !grepl("destroy\\s+nonland\\s+permanent", mtg$text, ignore.case = TRUE)
-                              ,]
-sort(table(destroylandinfo$colors))
-
-
-## write.csv(file = "/Users/bjr/Dropbox/raregoblins.csv", raregoblins)
-## write.csv(file = '/Users/bjr/Dropbox/poisonrefs.csv', poisons, row.names = F)
-write.csv(file = paste0(writeloc, "landdestroyer.csv"), destroylandinfo, row.names = F)
-
-
-nrow(mtg[mtg$subtypes %in% "Goblin",])
-
-
 t.test( x = mtg[grep("goblin", mtg$subtypes, ignore.case = T), "numpow"],
        y =  mtg[grep("zombie", mtg$subtypes, ignore.case = T), "numpow"])
 
@@ -61,8 +40,6 @@ t.test(x = mtg[mtg$Blue ==1 & mtg$types %in% "Creature", "cmc"],
 ## To Do list
 
 ## Figure out which color is the strongest color.
-
-## t.test(numtough ~ Green, data = mtg)
 
 ## Note. Positivity means the value in 1 is larger. It was negative,
 ## but I multiplied the t statistics by -1 to make it clearer

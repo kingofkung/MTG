@@ -8,6 +8,8 @@ if("df" %in% ls()) mtg <- df else mtg <- read.csv(paste0(readloc, "MTGData.csv")
 ## Kill unhinged and unglued from my data. This is supposed to be a serious analysis
 mtg <- mtg[mtg$Unhinged ==0 & mtg$Unglued == 0 , ]
 
+library(rockchalk)
+
 ## Create Numeric versions of power/toughness (for analysis purposes)
 mtg$numpow <- as.numeric(as.character(mtg$power))
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
@@ -139,3 +141,11 @@ ssinorder <- intersect(order(keycoefs[,1]), which(keycoefs[,4]<=.05))
 
 ssiocutmid <- intersect(ssinorder, which(abs(keycoefs[,1])>.5))
 keycoefs[ssiocutmid ,]
+
+## library(glmnet)
+## creatures <- mtg[mtg$types %in% "Creature",]
+## creaturecols <- c(3:4, 15:20, 57, 250:415)
+## creaturescc <- creatures[complete.cases(creatures[,creaturecols]), creaturecols]
+##  model.matrix(as.formula(paste0("cmc ~ ", paste(colnames(creatures[,creaturecols]), collapse = " + "))), creatures)
+
+## glmnet(as.matrix(creaturescc), creaturescc$cmc, family = "gaussian")

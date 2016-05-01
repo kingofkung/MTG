@@ -5,11 +5,10 @@
 ## distribution's density. We'll need to do something about that.
 readloc <- "/Users/bjr/Dropbox/MTGDat/"
 if("df" %in% ls()) mtg <- df else mtg <- read.csv(paste0(readloc, "MTGData.csv"))
-## Create Numeric versions of power/toughness (for analysis purposes)
-
 ## Kill unhinged and unglued from my data. This is supposed to be a serious analysis
 mtg <- mtg[mtg$Unhinged ==0 & mtg$Unglued == 0 , ]
 
+## Create Numeric versions of power/toughness (for analysis purposes)
 mtg$numpow <- as.numeric(as.character(mtg$power))
 mtg$numtough <- as.numeric(as.character(mtg$toughness))
 names(mtg)
@@ -107,10 +106,36 @@ source("/Users/bjr/Desktop/fancyt.R")
 fancyt("White", "Green", cmcmod)
 
 powmod <- lm(numpow ~ Green*White*Red*Blue*Black, dat = mtg)
-powcoefs <- summary(powmod)$coefficients
+powcoefs <- coef(summary(powmod))
+
+toughmod <- update(powmod, .-numpow + numtough ~ .)
+toughcoefs <- coef(summary(toughmod))
 
 powcoefs[powcoefs[,4]<=.05,]
 
 powtypes <- lm(numpow ~ subtypes, mtg)
 powtypesum <- coef(summary(powtypes))
-powtypesum[powtypesum[,4] <= .05 & abs(powtypesum[,1]) >=1,]
+summary(powtypesum)
+ptslim <- powtypesum[powtypesum[,4] <= .05, 1:2]
+ptslim[order(ptslim[,1]),]
+
+toughtypes <- lm(numtough ~ subtypes, mtg)
+toughtypesum <- coef(summary(toughtypes))
+summary(toughtypesum)
+ttslim <- toughtypesum[toughtypesum[,4] <= .05, 1:2]
+ttslim[order(ttslim[,1]),]
+
+## Want to figure out if there's a way to make the keywords
+
+keyform <- paste("cmc ~ ", paste(colnames(mtg)[250:415], collapse = " + "))
+as.formula(keyform)
+keywordlm <- lm(as.formula(keyform), mtg)
+
+keycoefs <- coef(summary(keywordlm))
+## The intersect command lets us get the values common to two sets of
+## numbers. Ok, so check it out, I just cut out any coefficient whose
+## absolute value is less than .5
+ssinorder <- intersect(order(keycoefs[,1]), which(keycoefs[,4]<=.05))
+
+ssiocutmid <- intersect(ssinorder, which(abs(keycoefs[,1])>.5))
+keycoefs[ssiocutmid ,]

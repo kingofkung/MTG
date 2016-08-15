@@ -5,9 +5,9 @@ datloc <- "/Users/bjr/GitHub/MTG/Data"
 library(jsonlite)
 
 ## If the data hasn't already been read in, read it in
-if(!exists("AllCards")) AllCards <- fromJSON(paste0(datloc,"/AllCards-x 2.json"))
+if(!exists("AllCards")) AllCards <- fromJSON(paste0(datloc,"/AllCards-x.json"))
 if(!exists("SetInfo")) SetInfo <- fromJSON(paste0(datloc,"/SetList.json"))
-if(!exists("FullData")) FullData <- fromJSON(paste0(datloc,"/AllSets-x 2.json"))
+if(!exists("FullData")) FullData <- fromJSON(paste0(datloc,"/AllSets-x.json"))
 
 getall <- function( var, dat = AllCards, wantlist = TRUE) {
     out <- lapply(dat, function(x) x[[var]])

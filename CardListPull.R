@@ -37,3 +37,7 @@ writeloc <- "/Users/bjr/Dropbox/MTGDat/"
 write.csv(file = paste0(writeloc, "landdestroyer.csv"), destroylandinfo, row.names = F)
 
 
+
+
+EM <- mtg[mtg$`Eldritch Moon` == 1, c("name", "manaCost", "cmc", "type", "types", "text", "loyalty", "power", "toughness", "subtypes", "colors", "Red", "White", "Blue", "Black", "Green", "nocolor", "modalrarity", "lastrarity")]
+write.csv(EM, paste0(writeloc, "eldritchmoon.csv"))
